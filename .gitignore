@@ -1,0 +1,16 @@
+# Claude Code session state (generated, not versioned)
+.claude/last-session.json
+
+# Secrets
+.env
+
+# Python
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# macOS
+.DS_Store

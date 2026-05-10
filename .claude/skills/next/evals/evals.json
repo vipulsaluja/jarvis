@@ -1,0 +1,29 @@
+{
+  "skill_name": "next",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/next",
+      "expected_output": "Reads CLAUDE.md, finds M0 as current milestone, sees no breakdown file exists, creates docs/milestones/M0-tasks.md with concrete actionable tasks derived from the roadmap, presents the list to the user and asks whether to start T1.",
+      "scenario": "No breakdown exists yet — first run on a fresh milestone"
+    },
+    {
+      "id": 2,
+      "prompt": "/next",
+      "expected_output": "Reads CLAUDE.md, finds M0 as current milestone, reads docs/milestones/M0-tasks.md, finds first [ ] pending task, marks it [~] in the file, announces the task name, and starts working on it.",
+      "scenario": "Breakdown exists, all tasks still pending — second session after breakdown was created"
+    },
+    {
+      "id": 3,
+      "prompt": "/next",
+      "expected_output": "Reads CLAUDE.md, finds M0 as current milestone, reads docs/milestones/M0-tasks.md, finds a [~] in-progress task, announces it as picking up where we left off, and resumes work on it.",
+      "scenario": "Breakdown exists with one task already in-progress — resuming after a /clear"
+    },
+    {
+      "id": 4,
+      "prompt": "let's continue working",
+      "expected_output": "Same as eval 2 — skill triggers on natural language resume intent, not just /next literal",
+      "scenario": "Natural language trigger instead of slash command"
+    }
+  ]
+}
