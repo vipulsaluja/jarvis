@@ -1,0 +1,4 @@
+{
+  "_schema": "General user preferences. facts: { key: { value, confidence (0-1), updated (ISO8601), source } }",
+  "facts": {}
+}

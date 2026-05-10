@@ -1,0 +1,43 @@
+{
+  "_schema": "Entity facts. type: person|project. facts: { key: { value, confidence (0-1), updated (ISO8601), source } }",
+  "name": "Jarvis",
+  "type": "project",
+  "facts": {
+    "goal": {
+      "value": "Personal AI assistant with tiered memory architecture that retrieves the right context per query without ballooning token usage",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    },
+    "language": {
+      "value": "Python",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    },
+    "llm_backend": {
+      "value": "Claude Code CLI (claude -p) for all LLM calls — main agent and memory router alike",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    },
+    "vector_storage": {
+      "value": "SQLite + sqlite-vec (local, no external infra)",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    },
+    "current_milestone": {
+      "value": "M3 — Semantic Memory (Entity Store)",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    },
+    "design_principle": {
+      "value": "Retrieval over storage — prefer smaller well-indexed stores over comprehensive dumps",
+      "confidence": 1.0,
+      "updated": "2026-05-10T00:00:00",
+      "source": "user-cli"
+    }
+  }
+}

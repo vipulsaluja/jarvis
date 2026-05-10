@@ -1,0 +1,18 @@
+{
+  "name": "Rachita",
+  "type": "person",
+  "facts": {
+    "relationship_to_user": {
+      "value": "wife",
+      "confidence": 0.5,
+      "updated": "2026-05-10T21:43:05+00:00",
+      "source": "user-cli"
+    },
+    "job_title": {
+      "value": "Software Engineering Manager",
+      "confidence": 0.9,
+      "updated": "2026-05-10T21:53:17+00:00",
+      "source": "user-cli"
+    }
+  }
+}

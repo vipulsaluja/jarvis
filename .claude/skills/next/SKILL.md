@@ -98,6 +98,33 @@ As you work, update task statuses in the breakdown file in real time:
 Don't batch these updates — update immediately when the state changes. This is what
 makes `/clear` + `/next` work correctly: the file is the source of truth.
 
+## UAT — User Acceptance Testing
+
+After marking a task `[x]`, before moving to the next task, present a short UAT checklist
+the user can run themselves to confirm the work is correct. These are not automated tests —
+they are manual verification steps tailored to what was just built.
+
+Format:
+```
+**UAT for {task title}:**
+1. {specific action the user can take}
+   Expected: {what they should see or observe}
+2. {another check, if relevant}
+   Expected: {outcome}
+```
+
+Rules for writing UAT steps:
+- Each step must be executable right now with the code as written — no setup beyond what exists
+- Name the exact command, file, or UI path to exercise — not "test the feature" but "run `python agent/jarvis.py` and type X"
+- Expected outcome must be observable (output, file change, behavior) — not "it should work"
+- Include only steps that would catch a real regression; omit steps that are trivially obvious
+- 2–4 steps is the right range; more means the task was too large
+
+After presenting the UAT steps, ask: "Does it check out? Type 'yes' to move to the next
+task, or describe what's off and I'll fix it."
+
+Wait for the user's confirmation before marking the next task `[~]` or moving on.
+
 ## Tone
 
 Be direct. The user knows the project. Skip preamble — name the task, do the work.
