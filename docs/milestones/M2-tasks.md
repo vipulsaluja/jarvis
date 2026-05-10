@@ -18,7 +18,7 @@
   `agent/jarvis.py` loads `procedural.md` and `hot.json` at startup and injects them into the system prompt (or as the first system turn). The agent sees this context on every turn without the user providing it.
 
 - [x] T5: Enforce the 800-token combined budget
-  At load time, count tokens for procedural + hot combined. If they exceed 800 tokens, print a warning to stderr (don't crash). Use `anthropic.count_tokens` or a character-based estimate (~4 chars/token) — pick whichever is simpler.
+  At load time, count tokens for procedural + hot combined. If they exceed 800 tokens, print a warning to stderr (don't crash). Use a character-based estimate (~4 chars/token) — no SDK dependency needed since all LLM calls go through the Claude Code CLI.
 
-- [~] T6: Smoke test personalization
+- [x] T6: Smoke test personalization
   Run the agent cold. Confirm: it addresses you by name without being told, response style matches procedural instructions, and asking "what projects am I working on?" returns the hot.json values. Note any gaps.

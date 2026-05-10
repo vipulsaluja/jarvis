@@ -42,7 +42,7 @@ Writes never block responses.
 
 ## Tech Stack
 - **Language:** Python
-- **LLM:** Claude API (`claude-sonnet-4-6` for main agent, `claude-haiku-4-5` for memory router/classifier)
+- **LLM:** Claude Code CLI (`claude -p`) for all LLM calls — main agent and memory router/classifier alike
 - **Vector storage:** SQLite + sqlite-vec (local, no infra)
 - **Embeddings:** To be decided (OpenAI `text-embedding-3-small` or local via `sentence-transformers`)
 - **STT:** OpenAI Whisper (M10)

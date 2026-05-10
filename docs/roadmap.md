@@ -45,7 +45,7 @@ A personal AI agent that feels like it *knows* you — because it remembers the 
 **Goal:** "Hello Jarvis" works. Nothing more.
 
 - Python project scaffold (`jarvis/` structure)
-- Claude API integration with tool use
+- Claude Code CLI integration with tool use
 - Basic CLI: type a message, get a response
 - 2-3 hardcoded tools (e.g., get current time, open a URL)
 - System prompt derived directly from `BEHAVIORAL_SPEC.md`

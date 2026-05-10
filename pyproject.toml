@@ -6,9 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "jarvis"
 version = "0.1.0"
 requires-python = ">=3.9"
-dependencies = [
-    "anthropic>=0.40.0",
-]
+dependencies = []
 
 [project.scripts]
 jarvis = "agent.jarvis:main"
