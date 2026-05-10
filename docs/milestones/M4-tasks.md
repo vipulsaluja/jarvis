@@ -5,7 +5,7 @@
 
 ## Tasks
 
-- [ ] T1: Set up SQLite + sqlite-vec and define episode schema
+- [x] T1: Set up SQLite + sqlite-vec and define episode schema
   `memory/stores/episodic.py` exists with a `EpisodicStore` class that creates (on init) a SQLite DB at `memory/episodic.db` with the episode table: `{ id, timestamp, summary, embedding BLOB, entities TEXT (JSON array), importance REAL, access_count INTEGER }`. sqlite-vec is installed and the vector index is created. A `pytest` test or a simple `python -c` smoke test confirms the table is created and a row can be inserted and retrieved.
 
 - [ ] T2: Implement episode write path (summary + embedding)
