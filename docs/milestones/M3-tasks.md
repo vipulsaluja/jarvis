@@ -5,7 +5,7 @@
 
 ## Tasks
 
-- [ ] T1: Create entity store directory structure and schema
+- [x] T1: Create entity store directory structure and schema
   `memory/semantic/people/`, `memory/semantic/projects/`, and `memory/semantic/preferences.json` exist. A `_schema.md` file documents the entity format: `{ facts: { key: { value, confidence, updated, source } } }`. Confidence is a float 0.0–1.0; threshold for silent overwrite vs. flag-for-confirmation is 0.7.
 
 - [ ] T2: Populate sample entity files
