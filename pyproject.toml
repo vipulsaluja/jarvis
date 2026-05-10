@@ -15,4 +15,4 @@ jarvis = "agent.jarvis:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["agent*", "tools*"]
+include = ["agent*", "tools*", "memory*"]

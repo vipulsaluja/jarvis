@@ -1,0 +1,11 @@
+{
+  "_schema": "Always-loaded facts. Edit directly. Keep total file under 300 tokens (~1200 chars).",
+  "name": "Vipul",
+  "timezone": "America/New_York",
+  "current_projects": [
+    "Jarvis — personal AI assistant with tiered memory architecture"
+  ],
+  "key_people": {
+    "family": ["spouse", "kids"]
+  }
+}

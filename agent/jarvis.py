@@ -2,14 +2,22 @@ import subprocess
 import uuid
 
 from agent.system_prompt import SYSTEM_PROMPT
+from memory.loader import load_static_memory
 
 
-def chat(message: str, session_id: str, is_first: bool) -> str:
+def _build_system_prompt() -> str:
+    static = load_static_memory()
+    if static:
+        return SYSTEM_PROMPT.rstrip() + "\n\n" + static
+    return SYSTEM_PROMPT
+
+
+def chat(message: str, session_id: str, is_first: bool, system_prompt: str = "") -> str:
     if is_first:
         cmd = [
             "claude", "-p",
             "--session-id", session_id,
-            "--system-prompt", SYSTEM_PROMPT,
+            "--system-prompt", system_prompt,
             "--permission-mode", "bypassPermissions",
             message,
         ]
@@ -29,6 +37,7 @@ def chat(message: str, session_id: str, is_first: bool) -> str:
 
 def main():
     session_id = str(uuid.uuid4())
+    system_prompt = _build_system_prompt()
     is_first = True
     print("Jarvis  (type 'quit' or 'exit' to stop)\n")
 
@@ -44,7 +53,7 @@ def main():
         if user_input.lower() in {"quit", "exit"}:
             break
 
-        reply = chat(user_input, session_id, is_first)
+        reply = chat(user_input, session_id, is_first, system_prompt)
         is_first = False
         print(f"\nJarvis: {reply}\n")
 
