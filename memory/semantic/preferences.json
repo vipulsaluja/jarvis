@@ -1,4 +1,29 @@
 {
   "_schema": "General user preferences. facts: { key: { value, confidence (0-1), updated (ISO8601), source } }",
-  "facts": {}
+  "facts": {
+    "prefers_morning_meetings": {
+      "value": "prefers morning meetings",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:31:20+00:00",
+      "source": "auto-extract"
+    },
+    "no_calls_after_4pm": {
+      "value": "never schedules calls after 4pm",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:31:20+00:00",
+      "source": "auto-extract"
+    },
+    "prefers_async_comms": {
+      "value": "prefers asynchronous communication",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:37:54+00:00",
+      "source": "auto-extract"
+    },
+    "code_review_day": {
+      "value": "always does code review on Fridays",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:40:02+00:00",
+      "source": "auto-extract"
+    }
+  }
 }

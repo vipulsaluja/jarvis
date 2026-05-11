@@ -1,0 +1,12 @@
+{
+  "name": "Jarvis Project",
+  "type": "project",
+  "facts": {
+    "caching_technology": {
+      "value": "uses Redis for caching",
+      "confidence": 0.6,
+      "updated": "2026-05-11T04:39:30+00:00",
+      "source": "auto-extract"
+    }
+  }
+}

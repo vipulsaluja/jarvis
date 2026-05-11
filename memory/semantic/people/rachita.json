@@ -13,6 +13,18 @@
       "confidence": 0.9,
       "updated": "2026-05-10T21:53:17+00:00",
       "source": "user-cli"
+    },
+    "team": {
+      "value": "moving to the data platform team",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:29:57+00:00",
+      "source": "auto-extract"
+    },
+    "team_status": {
+      "value": "moving to a new team",
+      "confidence": 0.9,
+      "updated": "2026-05-11T04:39:30+00:00",
+      "source": "auto-extract"
     }
   }
 }

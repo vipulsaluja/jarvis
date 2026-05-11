@@ -1,0 +1,5 @@
+{"timestamp": "2026-05-11T04:39:30+00:00", "type": "entity", "key": "rachita/team_status", "value": "moving to a new team", "source_turn": null}
+{"timestamp": "2026-05-11T04:39:30+00:00", "type": "entity", "key": "jarvis_project/caching_technology", "value": "uses Redis for caching", "source_turn": null}
+{"timestamp": "2026-05-11T04:39:38+00:00", "type": "commitment", "key": "no-date", "value": "Use Redis for caching.", "source_turn": null}
+{"timestamp": "2026-05-11T04:39:49+00:00", "type": "episode", "key": "importance=0.80", "value": "User decided to use Redis for caching in the new service.", "source_turn": null}
+{"timestamp": "2026-05-11T04:40:02+00:00", "type": "preference", "key": "user/code_review_day", "value": "always does code review on Fridays", "source_turn": null}

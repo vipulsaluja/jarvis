@@ -13,6 +13,7 @@ from memory.router.composer import MemoryComposer
 from memory.router.entity_detector import detect_entities
 from memory.router.entity_loader import load_entities
 from memory.stores.episodic import EpisodicStore
+from pipeline.extractor import run_post_conversation_pipeline
 
 _composer = MemoryComposer()
 
@@ -316,6 +317,7 @@ def main() -> None:
         print(f"\nJarvis: {reply}\n")
 
     _write_episode(history, verbose)
+    run_post_conversation_pipeline(history, verbose)
 
 
 if __name__ == "__main__":

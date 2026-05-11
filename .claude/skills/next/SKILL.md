@@ -98,30 +98,29 @@ As you work, update task statuses in the breakdown file in real time:
 Don't batch these updates — update immediately when the state changes. This is what
 makes `/clear` + `/next` work correctly: the file is the source of truth.
 
-## UAT — User Acceptance Testing
+## UAT — Automated + User Acceptance Testing
 
-After marking a task `[x]`, before moving to the next task, present a short UAT checklist
-the user can run themselves to confirm the work is correct. These are not automated tests —
-they are manual verification steps tailored to what was just built.
+After marking a task `[x]`, before moving to the next task, run the UAT tests yourself
+using the Bash tool. Design 2–4 test commands that verify the work is correct, execute
+them, and report the results.
 
-Format:
+Rules for UAT commands:
+- Use `.venv/bin/python` (not `python`) — the project uses a venv at `.venv/`
+- Each command must be self-contained and runnable right now with the code as written
+- Test the specific behavior just built — not trivially obvious things
+- Cover the happy path and at least one edge case (e.g., empty input, skip logic)
+- Check observable outcomes: stderr output, file contents, exit codes
+
+After running the tests, report results inline:
 ```
 **UAT for {task title}:**
-1. {specific action the user can take}
-   Expected: {what they should see or observe}
-2. {another check, if relevant}
-   Expected: {outcome}
+1. {command run}  →  PASS / FAIL
+   {one line: what was observed}
+2. ...
 ```
 
-Rules for writing UAT steps:
-- Each step must be executable right now with the code as written — no setup beyond what exists
-- Name the exact command, file, or UI path to exercise — not "test the feature" but "run `python agent/jarvis.py` and type X"
-- Expected outcome must be observable (output, file change, behavior) — not "it should work"
-- Include only steps that would catch a real regression; omit steps that are trivially obvious
-- 2–4 steps is the right range; more means the task was too large
-
-After presenting the UAT steps, ask: "Does it check out? Type 'yes' to move to the next
-task, or describe what's off and I'll fix it."
+If all tests pass, ask: "All UAT tests passed — shall I move to the next task?"
+If any fail, fix the issue before asking to proceed.
 
 Wait for the user's confirmation before marking the next task `[~]` or moving on.
 

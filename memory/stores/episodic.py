@@ -80,6 +80,11 @@ class EpisodicStore:
             (time.time(), summary, embedding, json.dumps(entities), importance),
         )
         self._conn.commit()
+        try:
+            from pipeline.write_log import append as _log
+            _log("episode", f"importance={importance:.2f}", summary)
+        except Exception:
+            pass
         return cur.lastrowid
 
     def search(self, query: str, top_k: int = 3) -> list:
