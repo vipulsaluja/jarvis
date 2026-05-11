@@ -4,6 +4,9 @@
 # Secrets
 .env
 
+# SQLite databases (generated at runtime)
+*.db
+
 # Python
 *.egg-info/
 __pycache__/

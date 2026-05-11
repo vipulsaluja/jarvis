@@ -8,11 +8,13 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from agent.system_prompt import SYSTEM_PROMPT
-from memory.loader import load_static_memory
+from memory.router.classifier import classify_query
+from memory.router.composer import MemoryComposer
 from memory.router.entity_detector import detect_entities
 from memory.router.entity_loader import load_entities
 from memory.stores.episodic import EpisodicStore
+
+_composer = MemoryComposer()
 
 _SEMANTIC_DIR = Path(__file__).parent.parent / "memory" / "semantic"
 _CONFIDENCE_THRESHOLD = 0.7
@@ -32,13 +34,6 @@ def _get_episodic_store() -> EpisodicStore:
 # ---------------------------------------------------------------------------
 # Chat
 # ---------------------------------------------------------------------------
-
-def _build_system_prompt() -> str:
-    static = load_static_memory()
-    if static:
-        return SYSTEM_PROMPT.rstrip() + "\n\n" + static
-    return SYSTEM_PROMPT
-
 
 def _prepend_episodic_context(message: str, verbose: bool) -> str:
     try:
@@ -283,7 +278,7 @@ def main() -> None:
         return
 
     session_id = str(uuid.uuid4())
-    system_prompt = _build_system_prompt()
+    system_prompt = ""
     is_first = True
     verbose = args.verbose
     history: list[dict] = []
@@ -301,8 +296,19 @@ def main() -> None:
         if user_input.lower() in {"quit", "exit"}:
             break
 
-        augmented = _prepend_entity_context(user_input, verbose)
-        augmented = _prepend_episodic_context(augmented, verbose)
+        tags = classify_query(user_input)
+        if verbose:
+            print(f"[router] tags={tags}", file=sys.stderr)
+
+        if is_first:
+            system_prompt = _composer.compose(user_input, ["procedural", "hot_semantic"], history, verbose)
+
+        augmented = user_input
+        if "entity" in tags:
+            augmented = _prepend_entity_context(augmented, verbose)
+        if "episodic" in tags:
+            augmented = _prepend_episodic_context(augmented, verbose)
+
         reply = chat(augmented, session_id, is_first, system_prompt)
         is_first = False
         history.append({"role": "user", "content": user_input})
