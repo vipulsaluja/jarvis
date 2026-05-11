@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import json
 import subprocess
@@ -10,9 +12,21 @@ from agent.system_prompt import SYSTEM_PROMPT
 from memory.loader import load_static_memory
 from memory.router.entity_detector import detect_entities
 from memory.router.entity_loader import load_entities
+from memory.stores.episodic import EpisodicStore
 
 _SEMANTIC_DIR = Path(__file__).parent.parent / "memory" / "semantic"
 _CONFIDENCE_THRESHOLD = 0.7
+_EPISODIC_TOKEN_BUDGET = 600
+_CHARS_PER_TOKEN = 4  # rough approximation
+
+_episodic_store: EpisodicStore | None = None
+
+
+def _get_episodic_store() -> EpisodicStore:
+    global _episodic_store
+    if _episodic_store is None:
+        _episodic_store = EpisodicStore()
+    return _episodic_store
 
 
 # ---------------------------------------------------------------------------
@@ -24,6 +38,37 @@ def _build_system_prompt() -> str:
     if static:
         return SYSTEM_PROMPT.rstrip() + "\n\n" + static
     return SYSTEM_PROMPT
+
+
+def _prepend_episodic_context(message: str, verbose: bool) -> str:
+    try:
+        episodes = _get_episodic_store().search(message, top_k=3)
+    except Exception:
+        return message
+    if not episodes:
+        return message
+
+    budget_chars = _EPISODIC_TOKEN_BUDGET * _CHARS_PER_TOKEN
+    lines = ["## Recent Episodes"]
+    used = len(lines[0]) + 1
+    for ep in episodes:
+        from datetime import datetime
+        ts = datetime.fromtimestamp(ep["timestamp"]).strftime("%Y-%m-%d")
+        line = f"- [{ts}] {ep['summary']}"
+        if used + len(line) + 1 > budget_chars:
+            break
+        lines.append(line)
+        used += len(line) + 1
+
+    if len(lines) == 1:
+        return message
+
+    context = "\n".join(lines)
+    if verbose:
+        print(f"[memory] {len(lines) - 1} episode(s) injected:", file=sys.stderr)
+        for line in lines[1:]:
+            print(f"  {line}", file=sys.stderr)
+    return f"{context}\n\n---\n{message}"
 
 
 def _prepend_entity_context(message: str, verbose: bool) -> str:
@@ -177,6 +222,49 @@ def _remember(fact: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Post-conversation episode write
+# ---------------------------------------------------------------------------
+
+def _write_episode(history: list[dict], verbose: bool) -> None:
+    if not history:
+        return
+
+    turns = "\n".join(
+        f"{t['role'].capitalize()}: {t['content']}" for t in history
+    )
+    prompt = (
+        "Summarize this conversation in 2-3 sentences, focusing on decisions made, "
+        "information shared, or commitments given. Be specific and factual.\n\n"
+        f"{turns}\n\nSummary:"
+    )
+    result = subprocess.run(["claude", "-p", prompt], capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"[memory] episode summary failed: {result.stderr.strip()}", file=sys.stderr)
+        return
+
+    summary = result.stdout.strip()
+    if not summary:
+        return
+
+    from memory.stores.episodic import score_importance
+    importance = score_importance(summary)
+
+    if importance <= 0.3:
+        print("Episode skipped (low importance).", file=sys.stderr)
+        return
+
+    all_text = " ".join(t["content"] for t in history)
+    entity_paths = detect_entities(all_text)
+    entities = [p.stem for p in entity_paths]
+
+    _get_episodic_store().add_episode(summary, entities, importance)
+    print("Episode saved.", file=sys.stderr)
+    if verbose:
+        print(f"[memory] summary: {summary}", file=sys.stderr)
+        print(f"[memory] importance: {importance:.2f}, entities: {entities}", file=sys.stderr)
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
@@ -198,6 +286,7 @@ def main() -> None:
     system_prompt = _build_system_prompt()
     is_first = True
     verbose = args.verbose
+    history: list[dict] = []
     print("Jarvis  (type 'quit' or 'exit' to stop)\n")
 
     while True:
@@ -213,9 +302,14 @@ def main() -> None:
             break
 
         augmented = _prepend_entity_context(user_input, verbose)
+        augmented = _prepend_episodic_context(augmented, verbose)
         reply = chat(augmented, session_id, is_first, system_prompt)
         is_first = False
+        history.append({"role": "user", "content": user_input})
+        history.append({"role": "assistant", "content": reply})
         print(f"\nJarvis: {reply}\n")
+
+    _write_episode(history, verbose)
 
 
 if __name__ == "__main__":
