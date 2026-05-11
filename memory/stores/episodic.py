@@ -1,11 +1,34 @@
+# Embeddings: sentence-transformers all-MiniLM-L6-v2 (384-dim, local, no API key).
+# Model is downloaded once (~90MB) to ~/.cache/huggingface on first use.
 import json
 import sqlite3
+import struct
 import time
 from pathlib import Path
 
 import sqlite_vec
+from sentence_transformers import SentenceTransformer
 
 DB_PATH = Path(__file__).parent.parent.parent / "memory" / "episodic.db"
+
+_model: SentenceTransformer | None = None
+
+
+def _get_model() -> SentenceTransformer:
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
+
+
+def _embed(text: str) -> bytes:
+    vec = _get_model().encode(text, normalize_embeddings=True)
+    return struct.pack(f"{len(vec)}f", *vec)
+
+
+def _unpack(blob: bytes) -> list[float]:
+    n = len(blob) // 4
+    return list(struct.unpack(f"{n}f", blob))
 
 
 class EpisodicStore:
@@ -21,18 +44,19 @@ class EpisodicStore:
     def _init_schema(self):
         self._conn.executescript("""
             CREATE TABLE IF NOT EXISTS episodes (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp   REAL    NOT NULL,
-                summary     TEXT    NOT NULL,
-                embedding   BLOB,
-                entities    TEXT    NOT NULL DEFAULT '[]',
-                importance  REAL    NOT NULL DEFAULT 0.5,
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp    REAL    NOT NULL,
+                summary      TEXT    NOT NULL,
+                embedding    BLOB,
+                entities     TEXT    NOT NULL DEFAULT '[]',
+                importance   REAL    NOT NULL DEFAULT 0.5,
                 access_count INTEGER NOT NULL DEFAULT 0
             );
         """)
         self._conn.commit()
 
-    def add_episode(self, summary: str, entities: list[str], importance: float, embedding: bytes | None = None) -> int:
+    def add_episode(self, summary: str, entities: list[str], importance: float) -> int:
+        embedding = _embed(summary)
         cur = self._conn.execute(
             """
             INSERT INTO episodes (timestamp, summary, embedding, entities, importance)
