@@ -63,7 +63,9 @@ def _prepend_episodic_context(message: str, verbose: bool) -> str:
 
     context = "\n".join(lines)
     if verbose:
-        print(f"[memory] loaded {len(lines) - 1} episode(s)", file=sys.stderr)
+        print(f"[memory] {len(lines) - 1} episode(s) injected:", file=sys.stderr)
+        for line in lines[1:]:
+            print(f"  {line}", file=sys.stderr)
     return f"{context}\n\n---\n{message}"
 
 
