@@ -138,3 +138,29 @@ class EpisodicStore:
 
     def close(self):
         self._conn.close()
+
+
+def score_importance(summary: str) -> float:
+    """Score a summary's importance in [0.0, 1.0].
+
+    High (>= 0.7): decided, agreed, will, committed, promised, need to, must, should,
+                   concluded, resolved, plan to, going to, scheduled
+    Low (<= 0.3):  chatted, mentioned, asked about, talked about, discussed briefly,
+                   said hi, caught up, small talk
+    Default: 0.5 for everything else.
+    """
+    text = summary.lower()
+    HIGH = [
+        "decided", "agreed", "will ", "committed", "promised",
+        "need to", "must ", "should ", "concluded", "resolved",
+        "plan to", "going to", "scheduled",
+    ]
+    LOW = [
+        "chatted", "mentioned", "asked about", "talked about",
+        "discussed briefly", "said hi", "caught up", "small talk",
+    ]
+    if any(kw in text for kw in HIGH):
+        return 0.8
+    if any(kw in text for kw in LOW):
+        return 0.2
+    return 0.5
