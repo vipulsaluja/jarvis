@@ -245,7 +245,7 @@ def _write_episode(history: list[dict], verbose: bool) -> None:
     from memory.stores.episodic import score_importance
     importance = score_importance(summary)
 
-    if importance < 0.2:
+    if importance <= 0.3:
         print("Episode skipped (low importance).", file=sys.stderr)
         return
 

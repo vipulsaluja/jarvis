@@ -143,11 +143,13 @@ class EpisodicStore:
 def score_importance(summary: str) -> float:
     """Score a summary's importance in [0.0, 1.0].
 
-    High (>= 0.7): decided, agreed, will, committed, promised, need to, must, should,
-                   concluded, resolved, plan to, going to, scheduled
-    Low (<= 0.3):  chatted, mentioned, asked about, talked about, discussed briefly,
-                   said hi, caught up, small talk
-    Default: 0.5 for everything else.
+    High (0.8): decided, agreed, will, committed, promised, need to, must, should,
+                concluded, resolved, plan to, going to, scheduled
+    Low (0.2):  chatted, mentioned, asked about, talked about, discussed briefly,
+                said hi, caught up, small talk, greeted, inquired, checked in,
+                asked how, exchanged, how are you, how is, doing well
+    Default: 0.3 — neutral content defaults low; saves only if clearly significant.
+    Skip threshold in writer: <= 0.3 (so LOW=0.2 and DEFAULT=0.3 are both skipped).
     """
     text = summary.lower()
     HIGH = [
@@ -158,9 +160,11 @@ def score_importance(summary: str) -> float:
     LOW = [
         "chatted", "mentioned", "asked about", "talked about",
         "discussed briefly", "said hi", "caught up", "small talk",
+        "greeted", "inquired", "checked in", "asked how",
+        "exchanged", "how are you", "how is", "doing well",
     ]
     if any(kw in text for kw in HIGH):
         return 0.8
     if any(kw in text for kw in LOW):
         return 0.2
-    return 0.5
+    return 0.3
