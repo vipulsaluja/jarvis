@@ -8,7 +8,7 @@
 - [x] T1: Set up SQLite + sqlite-vec and define episode schema
   `memory/stores/episodic.py` exists with a `EpisodicStore` class that creates (on init) a SQLite DB at `memory/episodic.db` with the episode table: `{ id, timestamp, summary, embedding BLOB, entities TEXT (JSON array), importance REAL, access_count INTEGER }`. sqlite-vec is installed and the vector index is created. A `pytest` test or a simple `python -c` smoke test confirms the table is created and a row can be inserted and retrieved.
 
-- [ ] T2: Implement episode write path (summary + embedding)
+- [~] T2: Implement episode write path (summary + embedding)
   `EpisodicStore.add_episode(summary, entities, importance)` stores a row with a text embedding of the summary. Decide and document the embedding approach (OpenAI `text-embedding-3-small` or `sentence-transformers`) in a comment at the top of the file. The embedding is stored as a BLOB. Call this manually with a fake summary to confirm it round-trips.
 
 - [ ] T3: Implement episode read path (cosine similarity search)
