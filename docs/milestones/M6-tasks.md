@@ -20,5 +20,5 @@
 - [x] T5: Implement write log for auditability
   A `pipeline/write_log.py` module appends one JSON line per write to `memory/write_log.jsonl`: `{ timestamp, type (entity/preference/commitment/episode), key, value, source_turn }`. The `EpisodicStore.add_episode` and all entity upserts from T1–T3 write a log entry. This is append-only — never modified. Verify by checking the file after a conversation that produces at least one write.
 
-- [ ] T6: End-to-end automated write smoke test
+- [x] T6: End-to-end automated write smoke test
   Have a conversation with Jarvis that includes: (a) a stated fact about a person ("Rachita is moving to a new team"), (b) a preference ("I prefer morning meetings"), (c) a decision ("let's use Redis for caching"). Exit. Confirm: (1) the entity file for Rachita is updated, (2) preferences.json has the morning meeting preference, (3) a commitment entry is logged to stderr, (4) `memory/write_log.jsonl` has entries for each write. Then have a trivial conversation and confirm the pipeline runs but writes nothing (or minimal content).

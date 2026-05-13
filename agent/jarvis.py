@@ -13,6 +13,7 @@ from memory.router.composer import MemoryComposer
 from memory.router.entity_detector import detect_entities
 from memory.router.entity_loader import load_entities
 from memory.stores.episodic import EpisodicStore
+from memory.stores.prospective import ProspectiveStore
 from pipeline.extractor import run_post_conversation_pipeline
 
 _composer = MemoryComposer()
@@ -285,6 +286,16 @@ def main() -> None:
     history: list[dict] = []
     print("Jarvis  (type 'quit' or 'exit' to stop)\n")
 
+    today_iso = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    _prospective_store = ProspectiveStore()
+    due_items = _prospective_store.get_due(today_iso)
+    if due_items:
+        print("--- Reminders ---")
+        for item in due_items:
+            due_label = f" (due {item['due_date']})" if item["due_date"] else ""
+            print(f"• {item['content']}{due_label}")
+        print("---\n")
+
     while True:
         try:
             user_input = input("You: ").strip()
@@ -296,6 +307,11 @@ def main() -> None:
             continue
         if user_input.lower() in {"quit", "exit"}:
             break
+
+        keywords = list({w.lower().strip(".,!?;:'\"") for w in user_input.split()})
+        triggered = _prospective_store.get_condition_triggered(keywords)
+        for item in triggered:
+            print(f"[reminder] {item['content']}")
 
         tags = classify_query(user_input)
         if verbose:

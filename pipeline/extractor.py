@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from pipeline.write_log import append as _log
+from pipeline.date_parser import resolve_due_date
+from memory.stores.prospective import ProspectiveStore
 
 _SEMANTIC_DIR = Path(__file__).parent.parent / "memory" / "semantic"
 
@@ -144,9 +146,24 @@ def extract_commitments(conversation_history: list[dict]) -> list[dict]:
     return valid
 
 
-def run_post_conversation_pipeline(conversation_history: list[dict], verbose: bool = False) -> None:
+def _persist_commitments(commitments: list[dict], today: str) -> None:
+    store = ProspectiveStore()
+    for c in commitments:
+        content = c["content"]
+        hint = c.get("due_date_hint")
+        due_date = resolve_due_date(hint, today) if hint else None
+        item_id = store.add(content, due_date=due_date)
+        _log("commitment", due_date or "no-date", content)
+        print(f"[write] commitment persisted: {content}", file=sys.stderr)
+    store.close()
+
+
+def run_post_conversation_pipeline(conversation_history: list[dict], verbose: bool = False, today: str | None = None) -> None:
     if not conversation_history:
         return
+
+    if today is None:
+        today = datetime.now(timezone.utc).date().isoformat()
 
     if verbose:
         print("[pipeline] running post-conversation extraction...", file=sys.stderr)
@@ -158,8 +175,10 @@ def run_post_conversation_pipeline(conversation_history: list[dict], verbose: bo
 
     try:
         commitments = extract_commitments(conversation_history)
-        if verbose and commitments:
-            print(f"[pipeline] {len(commitments)} commitment(s) detected", file=sys.stderr)
+        if commitments:
+            if verbose:
+                print(f"[pipeline] {len(commitments)} commitment(s) detected", file=sys.stderr)
+            _persist_commitments(commitments, today)
     except Exception as e:
         print(f"[pipeline] commitment extraction error: {e}", file=sys.stderr)
 

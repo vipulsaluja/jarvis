@@ -3,3 +3,37 @@
 {"timestamp": "2026-05-11T04:39:38+00:00", "type": "commitment", "key": "no-date", "value": "Use Redis for caching.", "source_turn": null}
 {"timestamp": "2026-05-11T04:39:49+00:00", "type": "episode", "key": "importance=0.80", "value": "User decided to use Redis for caching in the new service.", "source_turn": null}
 {"timestamp": "2026-05-11T04:40:02+00:00", "type": "preference", "key": "user/code_review_day", "value": "always does code review on Fridays", "source_turn": null}
+{"timestamp": "2026-05-11T13:44:44+00:00", "type": "entity", "key": "rachita/team_change", "value": "moving to a new team next month", "source_turn": null}
+{"timestamp": "2026-05-11T13:44:44+00:00", "type": "entity", "key": "new_service/caching_technology", "value": "uses Redis for caching", "source_turn": null}
+{"timestamp": "2026-05-11T13:44:56+00:00", "type": "commitment", "key": "no-date", "value": "Use Redis for caching in the new service.", "source_turn": null}
+{"timestamp": "2026-05-11T16:22:22+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T16:22:22+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T16:22:22+00:00", "type": "entity", "key": "priya/role", "value": "intern", "source_turn": null}
+{"timestamp": "2026-05-11T16:22:22+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T16:22:22+00:00", "type": "preference", "key": "user/prefers_morning_meetings", "value": "I prefer morning meetings", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:10+00:00", "type": "commitment", "key": "no-date", "value": "Follow up with Rachita", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:11+00:00", "type": "commitment", "key": "2026-05-18", "value": "Send report", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:11+00:00", "type": "commitment", "key": "no-date", "value": "No deadline task", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:11+00:00", "type": "commitment", "key": "no-date", "value": "Task A", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:11+00:00", "type": "commitment", "key": "2026-05-12", "value": "Task B", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:11+00:00", "type": "commitment", "key": "no-date", "value": "Task C", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "no-date", "value": "Follow up with Rachita", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "2026-05-18", "value": "Send report", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "no-date", "value": "No deadline task", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "no-date", "value": "Task A", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "2026-05-12", "value": "Task B", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:34+00:00", "type": "commitment", "key": "no-date", "value": "Task C", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:45+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:45+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:45+00:00", "type": "entity", "key": "priya/role", "value": "intern", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:45+00:00", "type": "entity", "key": "priya/role", "value": "engineer", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:45+00:00", "type": "preference", "key": "user/prefers_morning_meetings", "value": "I prefer morning meetings", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "no-date", "value": "Follow up with Rachita", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "2026-05-18", "value": "Send report", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "no-date", "value": "No deadline task", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "no-date", "value": "Task A", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "2026-05-12", "value": "Task B", "source_turn": null}
+{"timestamp": "2026-05-11T17:18:55+00:00", "type": "commitment", "key": "no-date", "value": "Task C", "source_turn": null}
+{"timestamp": "2026-05-13T03:25:56+00:00", "type": "episode", "key": "importance=0.80", "value": "The reminder wasn't created \u2014 you'll need to approve the Todoist permission. Want me to try again?\n\n**Summary:** The user asked to be reminded to follow up with Rachita next week (Monday, May 18, 2026). A Todoist task was attempted but blocked pending permission approval.", "source_turn": null}
+{"timestamp": "2026-05-13T03:26:04+00:00", "type": "commitment", "key": "next week", "value": "Follow up with Rachita", "source_turn": null}
+{"timestamp": "2026-05-13T03:26:09+00:00", "type": "commitment", "key": "2026-05-20", "value": "Follow up with Rachita", "source_turn": null}

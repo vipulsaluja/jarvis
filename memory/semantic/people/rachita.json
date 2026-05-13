@@ -25,6 +25,12 @@
       "confidence": 0.9,
       "updated": "2026-05-11T04:39:30+00:00",
       "source": "auto-extract"
+    },
+    "team_change": {
+      "value": "moving to a new team next month",
+      "confidence": 0.9,
+      "updated": "2026-05-11T13:44:44+00:00",
+      "source": "auto-extract"
     }
   }
 }
